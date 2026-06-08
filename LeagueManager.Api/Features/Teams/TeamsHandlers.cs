@@ -1,10 +1,13 @@
-﻿namespace LeagueManager.Api.Features.Teams
+﻿using LeagueManager.Api.Domain;
+
+namespace LeagueManager.Api.Features.Teams
 {
     public static class TeamsHandlers
     {
-        public static async Task<IResult> GetAll()
+        public static async Task<IResult> GetAll(TeamsService teamsService)
         {
-            return Results.Ok();
+            var teams = await teamsService.GetAll();
+            return Results.Ok(teams);
         }
 
         public static async Task<IResult> GetById(Guid id)
@@ -12,8 +15,9 @@
             return Results.Ok();
         }
 
-        public static async Task<IResult> Create()
+        public static async Task<IResult> Create(Team team, TeamsService teamsService)
         {
+            await teamsService.Create(team);
             return Results.Created();
         }
 
